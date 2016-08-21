@@ -1,4 +1,5 @@
 //? minz
+// rvw /healthTr..v0/notes.js
 
 // Create namspaces
 window.App = {
@@ -16,7 +17,7 @@ App.Models.Food = Backbone.Model.extend({
     calories: 0
   },
 
-  //? is this necessary due to api validation?
+  //? is this necessary due to api validation? .. see notes
   // Ensure that each food item has a name
   validate: function(foodItem) {
     if(! $.trim(foodItem.name))  {
@@ -91,8 +92,8 @@ App.Views.AddFoods = Backbone.View.extend({
 
   submit: function(e) {
     e.preventDefault();
-    var foodNames = $('foodNames').val().toString();
-    var foodCalories = parseInt($('#foodCalories').val());
+    var foodNames = $('foodNames').text().toString();
+    var foodCalories = parseInt($('#foodCalories').text());
 
     if (isNaN(foodCalories)) {
       return;
@@ -104,9 +105,9 @@ App.Views.AddFoods = Backbone.View.extend({
 });
 
 // Create (show total calories) View
-App.Views.Total = Backbone.View.extend({
-  // does matter if # here and . in index.html?
-  el: '#total',
+App.Views.TotCals = Backbone.View.extend({
+  //? does matter if # here and . in index.html?
+  el: '#totCals',
 
   initialize: function() {
     this.render();
@@ -125,11 +126,69 @@ App.Views.Total = Backbone.View.extend({
   }
 });
 
+// Create search results View
+App.Views.SearchResult = Backbone.View.extend({
+  hooks: {
+    searchButton: $('#searchButton'),
+    searchBox: $('#searchBox')
+  },
+
+  initialize: function() {
+    var self = this;
+    this.hooks.searchButton.on('click', function(e) {
+      e.preventDefault();
+      var query = $.trim(self.hooks.searchBox.val()).toLowerCase();
+      self.viaAPI(query);
+    });
+  },
+
+  viaAPI: function(query) {
+    var self = this;
+    $.ajax({
+      cache: true,
+      dataType: 'json',
+      type: 'GET',
+//? see notes
+      url: 'https://api.nutritionix.com/v1_1/search/' + keyword +'?results=0%3A10&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Cnf_calories&appId=b207a370&appKey=16f9bcdd52a20a8e547a5337c4d98b89'}).done(function(data) {
+//? see notes
+        var food;
+//? see notes
+        var searchResults = $('.searchResults');
+        var addButton = $('#foodSubmit');
+        var searchItemHTML = '';
+        if(data.hits.length == 0) {
+          var noResults = '<li>No results found for search term of: ' + query + '</li>';
+          searchResults.append($(noResults));
+          return;
+        }
+
+        for (var i = 0; i < data.hits.length; i++) {
+          searchItemHTML += '<li class="searchItem"><span class="searchName">' + data.hits[i].fields.brand_name + '</span><span class="searchCalories">' + Math.round(data.hits[i].fields.nf_calories) + '</span></li>';
+        }
+        searchResults.html(searchItemHTML);
+        var searchItem = $('.searchItem');
+        searchItem.on('click', function() {
+//? see notes
+          addButton.prop('disabled', false);
+          var names = $(this).find('.searchName').text();
+          var calories = $(this).find('.searchCalories').text();
+          $('#foodNames').text(names);
+          $('#foodCalories').text(calories);
+          return;
+        });
+      });
+    }
+});
+
+
 // Initialize App
-var foodsList = new App.Collections.Foods([]);
-var addFoodsView = new App.Views.AddFoods({ collection: foodsList });
-var listFoodsView = new App.Views.Foods({ collection: foodsList });
-var totCalFoodView = new App.Views.Total({ collection: foodsList});
+//? see notes
+var foodsCollection = new App.Collections.Foods([]);
+var addFoodsView = new App.Views.AddFoods({ collection: foodsCollection });
+var listFoodsView = new App.Views.Foods({ collection: foodsCollection });
+var totCalsView = new App.Views.TotCals({ collection: foodsCollection});
+
+var searchResult = new App.Views.SearchResult();
 
 $('.foodsList').html(listFoodsView.render().el);
 

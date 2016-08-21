@@ -10,16 +10,35 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <form id="foodChoice">
-    <input type="text" id="foodName" placeholder="Food name">
-    <input type="submit" placeholder="Add Food">
+  <h1>Health Tracker</h1>
+  <div>
+    <form action="">
+      <input type="text" id="searchBox" placeholder="Type food here">
+      <button type="submit" id="searchButton">Search</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Search Results</h2>
+    <ul class="searchResult"></ul>
+  </div>
+
+  <form id="addFood" action="">
+    <h2>Food Selection</h2>
+    <div id="foodNames">none</div>
+    <div id="foodCalories">none</div>
+    <button id="foodSubmit" class="foodSubButton" disabled>Add food</button>
+
   </form>
+
   <div id="foodsList">
     <script class="foodListTemplate" type="text/template">
       <span><%= title %></span> <span><%= calorie %></span> <button class="delete">Delete</button>
     </script>
   </div>
-  <div id="total"></div>
+  <h2>Total Calories</h2>
+  <div id="totCals"></div>
+
 
   <script src="js/jquery-3.1.0.min.js"></script>
   <script src="js/underscore-min.js"></script>
