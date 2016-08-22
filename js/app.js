@@ -34,9 +34,10 @@ App.Collections.Foods = Backbone.Collection.extend({
 // Create (Food Model) View
 App.Views.Food = Backbone.View.extend({
   tagName: 'li',
+  className: 'selectedItem',
 
 //? is ok to pass this?
-  template: _.template($('#foodListTemplate').html()),
+  template: _.template($('.foodListTemplate').html()),
 
   initialize: function() {
     this.model.on('destroy', this.remove, this);
@@ -87,12 +88,12 @@ App.Views.AddFoods = Backbone.View.extend({
   el: '#addFood',
 
   events: {
-    'submit' : 'submit'
+    'click #foodSubmit' : 'submit'
   },
 
   submit: function(e) {
     e.preventDefault();
-    var foodNames = $('foodNames').text().toString();
+    var foodNames = $('#foodNames').text().toString();
     var foodCalories = parseInt($('#foodCalories').text());
 
     if (isNaN(foodCalories)) {
@@ -130,7 +131,8 @@ App.Views.TotCals = Backbone.View.extend({
 App.Views.SearchResult = Backbone.View.extend({
   hooks: {
     searchButton: $('#searchButton'),
-    searchBox: $('#searchBox')
+    searchBox: $('#searchBox'),
+    searchBoxAlert: $('#searchBoxAlert')
   },
 
   initialize: function() {
@@ -138,27 +140,35 @@ App.Views.SearchResult = Backbone.View.extend({
     this.hooks.searchButton.on('click', function(e) {
       e.preventDefault();
       var query = $.trim(self.hooks.searchBox.val()).toLowerCase();
+      if(!query) {
+        self.hooks.searchBoxAlert.text('Enter food name.');
+        return;
+      }
+      self.hooks.searchBoxAlert.text('');
       self.viaAPI(query);
     });
   },
 
   viaAPI: function(query) {
     var self = this;
-    $.ajax({
-      cache: true,
-      dataType: 'json',
-      type: 'GET',
 //? see notes
-      url: 'https://api.nutritionix.com/v1_1/search/' + keyword +'?results=0%3A10&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Cnf_calories&appId=b207a370&appKey=16f9bcdd52a20a8e547a5337c4d98b89'}).done(function(data) {
+    var searchResults = $('.searchResults');
+
+    var searchResultshtml('<p>loading...</p>');
+
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      cache: true,
+//? see notes
+      url: 'https://api.nutritionix.com/v1_1/search/' + query +'?results=0%3A10&cal_min=0&cal_max=50000&fields=item_name%2Cbrand_name%2Cnf_calories&appId=b207a370&appKey=16f9bcdd52a20a8e547a5337c4d98b89'}).done(function(data) {
 //? see notes
         var food;
-//? see notes
-        var searchResults = $('.searchResults');
         var addButton = $('#foodSubmit');
         var searchItemHTML = '';
         if(data.hits.length == 0) {
-          var noResults = '<li>No results found for search term of: ' + query + '</li>';
-          searchResults.append($(noResults));
+          var noResults = '<p>No results found for search term of: ' + query + '</p>';
+          searchResults.html(noResults);
           return;
         }
 

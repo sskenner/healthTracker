@@ -11,33 +11,49 @@
 </head>
 <body>
   <h1>Health Tracker</h1>
-  <div>
-    <form action="">
-      <input type="text" id="searchBox" placeholder="Type food here">
-      <button type="submit" id="searchButton">Search</button>
-    </form>
-  </div>
+  <section class="sectionInfo">
+    <div>
+      <section class="sectionSearch">
+        <p>Enter food name then click "Add food" button</p>
+        <form action="" class="searchForm">
+          <input type="text" id="searchBox" placeholder="Type food here">
+          <button type="submit" id="searchButton">Search</button>
+          <!--see notes-->
+        </form>
+        <h2>Search Results</h2>
+        <ul class="searchResult"></ul>
+      </section>
+    </div>
+    <div>
+      <div id="addFood">
+        <h2>Food Selection</h2>
+        <div>
+          <h4>Food Name</h4>
+          <div id="foodNames">none</div>
+        </div>
+        <div>
+          <h4>Food Calories</h4>
+          <div id="foodCalories">none</div>
+        </div>
+        <button id="foodSubmit" disabled>Add food</button>
+      </div>
+      <h4>Selected Food</h4>
+      <!--see notes-->
+      <div class="foodList">
+        <script id="foodListTemplate" type="text/template">
+          <span class="searchName"><%= title %></span>
+          <span class="searchCalories"><%= calories %> Calories </span>
+          <span class="delete">Delete</span>
+        </script>
+      </div>
+    </div>
+  </section>
 
-  <div>
-    <h2>Search Results</h2>
-    <ul class="searchResult"></ul>
-  </div>
-
-  <form id="addFood" action="">
-    <h2>Food Selection</h2>
-    <div id="foodNames">none</div>
-    <div id="foodCalories">none</div>
-    <button id="foodSubmit" class="foodSubButton" disabled>Add food</button>
-
-  </form>
-
-  <div id="foodsList">
-    <script class="foodListTemplate" type="text/template">
-      <span><%= title %></span> <span><%= calorie %></span> <button class="delete">Delete</button>
-    </script>
-  </div>
-  <h2>Total Calories</h2>
-  <div id="totCals"></div>
+  <section>
+    <h1>Total Calories</h1>
+    <div id="totCals"></div>
+    <div>Calories</div>
+  </section>
 
 
   <script src="js/jquery-3.1.0.min.js"></script>
