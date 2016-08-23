@@ -1,3 +1,4 @@
+<!--? minz-->
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -9,27 +10,62 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <form id="foodChoice">
-    <input type="text" id="foodName" placeholder="Food name">
-    <input type="submit" placeholder="Add Food">
-  </form>
-  <div id="foodsList">
-    <script id="foodsListTemplate" type="text/template">
-      <span><%= title %></span> <span><%= calorie %></span> <button class="delete">Delete</button>
-    </script>
-  </div>
-  <div id="totalCalories"></div>
+  <h1>Health Tracker</h1>
+  <section class="sectionInfo">
+    <div>
+      <section class="sectionSearch">
+        <p>Enter food name then click "Add food" button</p>
+        <form action="" class="searchForm">
+          <input type="text" id="searchBox" placeholder="Type food here">
+          <button type="submit" id="searchButton">Search</button>
+          <!--see notes-->
+        </form>
+        <h2>Search Results</h2>
+        <ul class="searchResult"></ul>
+      </section>
+    </div>
+    <div>
+      <div id="addFood">
+        <h2>Food Selection</h2>
+        <div>
+          <h4>Food Name</h4>
+          <div id="foodNames">none</div>
+        </div>
+        <div>
+          <h4>Food Calories</h4>
+          <div id="foodCalories">none</div>
+        </div>
+        <button id="foodSubmit" disabled>Add food</button>
+      </div>
+      <h4>Selected Food</h4>
+      <!--see notes-->
+      <div class="foodList">
+        <script id="foodListTemplate" type="text/template">
+          <span class="searchName"><%= title %></span>
+          <span class="searchCalories"><%= calories %> Calories </span>
+          <span class="delete">Delete</span>
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h1>Total Calories</h1>
+    <div id="totCals"></div>
+    <div>Calories</div>
+  </section>
+
 
   <script src="js/jquery-3.1.0.min.js"></script>
   <script src="js/underscore-min.js"></script>
   <script src="js/backbone-min.js"></script>
   <script src="js/backbone.localStorage-min.js"></script>
-  <script src="js/helpers/helpers.js"></script>
-  <script src="js/models/food.js"></script>
-  <script src="js/collections/foods.js"></script>
-  <script src="js/views/foodView.js"></script>
-  <script src="js/views/foodsView.js"></script>
-  <script src="js/views/searchView.js"></script>
+  <!--<script src="js/helpers/helpers.js"></script>-->
+  <!--<script src="js/models/food.js"></script>-->
+  <!--<script src="js/collections/foods.js"></script>-->
+  <!--<script src="js/views/foodView.js"></script>-->
+  <!--<script src="js/views/foodsView.js"></script>-->
+  <!--<script src="js/views/searchView.js"></script>-->
   <script src="js/app.js"></script>
 </body>
 </html>
