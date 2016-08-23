@@ -28,7 +28,8 @@ App.Models.Food = Backbone.Model.extend({
 
 // Define (Foods Model) Collection
 App.Collections.Foods = Backbone.Collection.extend({
-  model: App.Models.Food
+  model: App.Models.Food,
+  localStorage: new Backbone.LocalStorage('LocalFoods')
 });
 
 // Create (Food Model) View
@@ -56,6 +57,9 @@ App.Views.Food = Backbone.View.extend({
   },
 
   remove: function() {
+    if(this.$el.siblings().length == 0) {
+      $('#searchAlert').show();
+    }
     this.$el.remove();
   }
 });
@@ -77,6 +81,7 @@ App.Views.Foods = Backbone.View.extend({
 
   // Create and append a food DOM element
   addOne: function(item) {
+    $('#searchAlert').hide();
     var foodsView = new App.Views.Foods({ model: item });
     this.$el.append(foodsView.render().el);
   }
@@ -102,6 +107,7 @@ App.Views.AddFoods = Backbone.View.extend({
 
     var food = new App.Models.Food({ name: foodNames, calories: foodCalories }, {validate: true});
     this.collection.add(food);
+    food.save();
   }
 });
 
@@ -173,7 +179,7 @@ App.Views.SearchResult = Backbone.View.extend({
         }
 
         for (var i = 0; i < data.hits.length; i++) {
-          searchItemHTML += '<li class="searchItem"><span class="searchName">' + data.hits[i].fields.brand_name + '</span><span class="searchCalories">' + Math.round(data.hits[i].fields.nf_calories) + '</span></li>';
+          searchItemHTML += '<li class="searchItem"><span class="searchName">' + data.hits[i].fields.brand_name + '</span><span class="searchCalories">' + Math.round(data.hits[i].fields.nf_calories) + ' Calories </span></li>';
         }
         searchResults.html(searchItemHTML);
         var searchItem = $('.searchItem');
@@ -186,6 +192,9 @@ App.Views.SearchResult = Backbone.View.extend({
           $('#foodCalories').text(calories);
           return;
         });
+// see notes
+      }).fail(function(){
+        searchResults.html('<p>Error retrieving food info. No connection to database.</p>');
       });
     }
 });
@@ -194,6 +203,7 @@ App.Views.SearchResult = Backbone.View.extend({
 // Initialize App
 //? see notes
 var foodsCollection = new App.Collections.Foods([]);
+foodsCollection.fetch();
 var addFoodsView = new App.Views.AddFoods({ collection: foodsCollection });
 var listFoodsView = new App.Views.Foods({ collection: foodsCollection });
 var totCalsView = new App.Views.TotCals({ collection: foodsCollection});
