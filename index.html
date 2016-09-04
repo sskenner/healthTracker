@@ -16,32 +16,37 @@
       <section class="sectionSearch">
         <p>Enter food name then click "Add food" button</p>
         <form action="" class="searchForm">
-          <input type="text" id="searchBox" placeholder="Type food here">
-          <button type="submit" id="searchButton">Search</button>
+          <input type="text" id="searchBox" class="searchBox" placeholder="Type food here">
+          <button type="submit" id="searchButton" class="searchButton">Search</button>
+          <span id="searchBoxAlert" class="searchBoxAlert"></span>
           <!--see notes-->
         </form>
         <h2>Search Results</h2>
-        <ul class="searchResult"></ul>
+        <ul class="searchResults"></ul>
       </section>
     </div>
     <div>
-      <div id="addFood">
+      <div id="addItem">
         <h2>Food Selection</h2>
         <div>
           <h4>Food Name</h4>
-          <div id="foodNames">none</div>
+          <div id="foodName">none</div>
         </div>
         <div>
           <h4>Food Calories</h4>
-          <div id="foodCalories">none</div>
+          <div id="foodCalorie">none</div>
         </div>
-        <button id="foodSubmit" disabled>Add food</button>
+        <br>
+        <div>
+          <button id="itemSubmit" class="foodSubmitBtn" disabled>Add food</button>
+        </div>
       </div>
       <h4>Selected Food</h4>
       <!--see notes-->
-      <div class="foodList">
+      <span id="searchAlert" class="searchBoxAlert">No food selections</span>
+      <div class="foodsList">
         <script id="foodListTemplate" type="text/template">
-          <span class="searchName"><%= title %></span>
+          <span class="searchName"><%= name %></span>
           <span class="searchCalories"><%= calories %> Calories </span>
           <span class="delete">Delete</span>
         </script>
@@ -52,7 +57,7 @@
   <section>
     <h1>Total Calories</h1>
     <div id="totCals"></div>
-    <div>Calories</div>
+    <!--<div>Calories</div>-->
   </section>
 
 
