@@ -65,7 +65,7 @@ var app = app || {};
           return;
         });
       }).fail(function() {
-        searchResults.html('<p> Damn, damn, damn... error retrieving the food information.');
+        searchResults.html('<p> Damn Daniel... error retrieving the food information.');
       });
     }
   });
