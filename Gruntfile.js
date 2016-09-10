@@ -5,14 +5,13 @@ module.exports = function(grunt) {
     uglify: {
       build: {
         files: [
-          {src: 'js/app.js', dest: 'js/app.min.js'},
-          {src: 'js/models/food.js', dest: 'js/models/food.min.js'},
-          {src: 'js/collections/foods.js', dest: 'js/collections/foods.min.js'},
-          {src: 'js/helpers/helpers.js', dest: 'js/helpers/helpers.min.js'},
-          {src: 'js/views/foodsView.js', dest: 'js/views/foodsView.min.js'},
-          {src: 'js/views/foodView.js', dest: 'js/views/foodView.min.js'},
-          {src: 'js/views/searchView.js', dest: 'js/views/searchView.min.js'}
-          // {src: 'css/main.css', dest: 'css/main.min.css'}
+          {src: 'src/js/app.js', dest: 'dist/js/app.min.js'},
+          {src: 'src/js/models/food.js', dest: 'dist/js/models/food.min.js'},
+          {src: 'src/js/collections/foods.js', dest: 'dist/js/collections/foods.min.js'},
+          {src: 'src/js/helpers/helpers.js', dest: 'dist/js/helpers/helpers.min.js'},
+          {src: 'src/js/views/foodsView.js', dest: 'dist/js/views/foodsView.min.js'},
+          {src: 'src/js/views/foodView.js', dest: 'dist/js/views/foodView.min.js'},
+          {src: 'src/js/views/searchView.js', dest: 'dist/js/views/searchView.min.js'}
         ]
       }
     }
