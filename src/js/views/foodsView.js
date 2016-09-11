@@ -11,6 +11,7 @@ var app = app || {};
     // Setup event handler to call addOne method
     initialize: function() {
       this.collection.on('add', this.addOne, this);
+      $('.foodsList').html(this.render().el);
     },
 
     // Iterate to render unordered list of selected food
